@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/NetworkedCoders/speech-rank.svg?branch=master)](https://travis-ci.org/NetworkedCoders/speech-rank)
+[![Build Status](https://travis-ci.org/PeggyBrown/speech-rank.svg?branch=master)](https://travis-ci.org/PeggyBrown/speech-rank)
 
 # speech-rank
 Web application to rate and comment on speeches from IT conferences
