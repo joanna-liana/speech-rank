@@ -1,7 +1,7 @@
+package com.github.peggybrown.speechrank.gateway;
+
 import com.typesafe.config.ConfigFactory;
 import org.junit.Test;
-
-import com.github.peggybrown.speechrank.gateway.Importer;
 
 import java.io.File;
 

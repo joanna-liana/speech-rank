@@ -1,6 +1,5 @@
 package com.github.peggybrown.speechrank.dto;
 
-
 import lombok.Data;
 
 @Data

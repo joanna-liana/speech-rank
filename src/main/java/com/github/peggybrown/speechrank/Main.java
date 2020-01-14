@@ -3,7 +3,7 @@ package com.github.peggybrown.speechrank;
 import com.github.peggybrown.speechrank.delivery.rest.RatpackRestServer;
 import com.typesafe.config.ConfigFactory;
 
-    import java.io.File;
+import java.io.File;
 
 public class Main {
 
@@ -11,7 +11,7 @@ public class Main {
         String apiKey = ConfigFactory.parseFile(new File("api.conf"))
                        .getString("youtube.apiKey");
 
-                    new RatpackRestServer(new ConferencesRepository(apiKey), options)
+                    new RatpackRestServer(new com.github.peggybrown.speechrank.ConferencesRepository(apiKey), options)
                 .start();
     }
 
