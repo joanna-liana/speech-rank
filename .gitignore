@@ -1,7 +1,7 @@
 # front end ignore list
 
-/node_modules
-/public
+**/node_modules
+**/public
 
 # IDE ignore list
 

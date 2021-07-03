@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/PeggyBrown/speech-rank.svg?branch=master)](https://travis-ci.org/PeggyBrown/speech-rank)
 
 # speech-rank
+
 Web application to rate and comment on speeches from IT conferences
 
 ## Project development
@@ -8,12 +9,13 @@ Web application to rate and comment on speeches from IT conferences
 ### Prerequisites
 
 -   JDK 7+
--   Node.js 4+
+-   Node.js 4+ (frontend)
+-   Node.js 16+ (backend)
 -   Gradle 2.11 (optional, ./gradlew will install if missing)
 
 ### Install dependencies
 
-`npm install`
+`npm install` (frontend, backend-node)
 
 ### Build frontend resources
 
@@ -27,7 +29,8 @@ In a new terminal window run
 
 ### Build and run backend server
 
-`./gradlew run`
+`./gradlew run` (backend-java)
+`npm start` (backend-node)
 
 ### Notes
 
