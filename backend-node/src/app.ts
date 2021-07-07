@@ -1,13 +1,23 @@
 import cors from 'cors';
 import express, { json, Request, Response } from 'express';
+import { google } from 'googleapis';
 
 import { ConferencesRepository } from './ConferencesRepository';
 import { ConferenceImportDto } from './dto/ConferenceImportDto';
 import { Comment } from './entity/Comment';
 import { Rate } from './entity/Rate';
+import { Importer } from './gateway/Importer';
 
-export const getApp = async (conferencesRepo: ConferencesRepository): Promise<express.Application> => {
+export const getApp = async (): Promise<express.Application> => {
   const app = express();
+
+  const playlistItemsApi = google.youtube('v3').playlistItems;
+
+  const importer = new Importer(
+    process.env.YOUTUBE_API_KEY!,
+    playlistItemsApi.list.bind(playlistItemsApi)
+  );
+  const conferencesRepo = new ConferencesRepository(importer);
 
   await conferencesRepo.importAllConferences();
 

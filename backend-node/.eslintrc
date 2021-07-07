@@ -18,6 +18,11 @@
       "error",
       "single"
     ],
+    "quote-props": [
+      "error",
+      "as-needed"
+    ],
+    "object-property-newline": "error",
     "@typescript-eslint/explicit-function-return-type": [
       "error"
     ],

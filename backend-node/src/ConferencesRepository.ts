@@ -23,8 +23,8 @@ export class ConferencesRepository {
       return this.#years.map(y => new YearDto(y));
     }
 
-    constructor(apiKey: string) {
-      this.#importer = new Importer(apiKey);
+    constructor(importer: Importer) {
+      this.#importer = importer;
       this.#years = [new Year('2019'), new Year('2018'), new Year('2017')];
     }
 
