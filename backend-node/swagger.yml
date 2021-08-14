@@ -1,0 +1,41 @@
+openapi: '3.0.2'
+info:
+  title: API Title
+  version: '1.0'
+servers:
+  - url: http://localhost:5050/api
+
+components:
+  schemas:
+    GetConferencesResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          year:
+            type: string
+          conferences:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+              required:
+                - "id"
+              additionalProperties: false
+        required:
+          - "year"
+          - "conferences"
+        additionalProperties: false
+
+paths:
+  /conferences:
+    get:
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetConferencesResponse'
+          description: OK
