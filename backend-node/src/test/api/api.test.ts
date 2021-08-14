@@ -1,4 +1,6 @@
 import { config } from 'dotenv';
+import jestOpenAPI from 'jest-openapi';
+import path from 'path';
 import supertest from 'supertest';
 import { v4 } from 'uuid';
 
@@ -7,17 +9,20 @@ import { Comment } from '../../entity/Comment';
 import { Rate } from '../../entity/Rate';
 
 config();
+jestOpenAPI(path.join(__dirname, '../../../swagger.yml'));
 
 const port = process.env.TEST_API_PORT;
 
 describe('API tests', () => {
-  const request = supertest(`http://localhost:${port}`);
+  const request = supertest(`http://localhost:${port}/api`);
   const confituraId = '51';
   const confituraKeynoteLink = 'https://youtube.com/embed/iwctfrr7sCw';
 
-  it('GET /api/conferences', async () => {
+  it('GET /conferences', async () => {
     const res = await request
-      .get('/api/conferences');
+      .get('/conferences');
+
+    expect(res).toSatisfyApiSpec();
 
     expect(res.body).toHaveLength(3);
 
@@ -29,9 +34,9 @@ describe('API tests', () => {
     expect(confitura.presentations).toBe(25);
   });
 
-  it('GET /api/conference/:id', async () => {
+  it('GET /conference/:id', async () => {
     const res = await request
-      .get(`/api/conference/${confituraId}`);
+      .get(`/conference/${confituraId}`);
 
     expect(res.body.id).toBe(confituraId);
     expect(res.body.name).toBe('Confitura');
@@ -46,10 +51,10 @@ describe('API tests', () => {
     expect(keynote.comments).toStrictEqual([]);
   });
 
-  it('POST /api/rating', async () => {
+  it('POST /rating', async () => {
     // given
     const confituraPresentations = await request
-      .get(`/api/conference/${confituraId}`);
+      .get(`/conference/${confituraId}`);
 
     const presentationId = confituraPresentations.body.presentations[0].id;
 
@@ -61,7 +66,7 @@ describe('API tests', () => {
 
     // when
     const res = await request
-      .post('/api/rating')
+      .post('/rating')
       .send(rate);
 
     // then
@@ -69,13 +74,13 @@ describe('API tests', () => {
     expect(res.body).toBe(rate.rate);
 
     const updatedConfituraPresentations = await request
-      .get(`/api/conference/${confituraId}`);
+      .get(`/conference/${confituraId}`);
     const presentationWithRate = updatedConfituraPresentations.body.presentations[0];
 
     expect(presentationWithRate.rates.find(r => r.userId === rate.userId)).toStrictEqual(rate);
   });
 
-  it('POST /api/import', async () => {
+  it('POST /import', async () => {
     // given
     const conf: ConferenceImportDto = {
       name: 'DevTernity',
@@ -85,7 +90,7 @@ describe('API tests', () => {
 
     // when
     const res = await request
-      .post('/api/import')
+      .post('/import')
       .send(conf);
 
     // then
@@ -93,14 +98,14 @@ describe('API tests', () => {
     expect(res.body.id).toBeDefined();
 
     const uploadedConf = await request
-      .get(`/api/conference/${res.body.id}`);
+      .get(`/conference/${res.body.id}`);
     expect(uploadedConf.body.presentations).toHaveLength(19);
   });
 
-  it('POST /api/comment', async () => {
+  it('POST /comment', async () => {
     // given
     const confituraPresentations = await request
-      .get(`/api/conference/${confituraId}`);
+      .get(`/conference/${confituraId}`);
 
     const presentationId = confituraPresentations.body.presentations[0].id;
 
@@ -113,7 +118,7 @@ describe('API tests', () => {
 
     // when
     const res = await request
-      .post('/api/comment')
+      .post('/comment')
       .send(comment);
 
     // then
@@ -121,7 +126,7 @@ describe('API tests', () => {
     expect(res.body).toBe(comment.comment);
 
     const updatedConfituraPresentations = await request
-      .get(`/api/conference/${confituraId}`);
+      .get(`/conference/${confituraId}`);
     const presentationWithComment = updatedConfituraPresentations.body.presentations[0];
 
     expect(presentationWithComment.comments.find(c => c.userId === comment.userId)).toStrictEqual(comment);
